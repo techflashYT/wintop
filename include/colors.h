@@ -1,0 +1,35 @@
+#pragma once
+#define BRIGHT_BLACK_FG   "\x1b[1;30m"
+#define BRIGHT_RED_FG     "\x1b[1;31m"
+#define BRIGHT_GREEN_FG   "\x1b[1;32m"
+#define BRIGHT_YELLOW_FG  "\x1b[1;33m"
+#define BRIGHT_BLUE_FG    "\x1b[1;34m"
+#define BRIGHT_PURPLE_FG  "\x1b[1;35m"
+#define BRIGHT_CYAN_FG    "\x1b[1;36m"
+#define BRIGHT_WHITE_FG   "\x1b[1;37m"
+#define BRIGHT_DEFAULT_FG "\x1b[1;39m"
+
+#define BLACK_FG   "\x1b[30m"
+#define RED_FG     "\x1b[31m"
+#define GREEN_FG   "\x1b[32m"
+#define YELLOW_FG  "\x1b[33m"
+#define BLUE_FG    "\x1b[34m"
+#define PURPLE_FG  "\x1b[35m"
+#define CYAN_FG    "\x1b[36m"
+#define WHITE_FG   "\x1b[37m"
+#define DEFAULT_FG "\x1b[39m"
+
+
+#define BLACK_BG   "\x1b[1;40m"
+#define RED_BG     "\x1b[1;41m"
+#define GREEN_BG   "\x1b[1;42m"
+#define YELLOW_BG  "\x1b[1;43m"
+#define BLUE_BG    "\x1b[1;44m"
+#define PURPLE_BG  "\x1b[1;45m"
+#define CYAN_BG    "\x1b[1;46m"
+#define WHITE_BG   "\x1b[1;47m"
+#define DEFAULT_BG "\x1b[1;49m"
+
+#define CYAN_BG_BLACK_FG "\x1b[0m\x1b[30;46m"
+
+#define RESET      "\x1b[0m"
