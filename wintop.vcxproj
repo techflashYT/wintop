@@ -157,6 +157,7 @@
     <ClCompile Include="CPU.c" />
     <ClCompile Include="cursor.c" />
     <ClCompile Include="keyboard.c" />
+    <ClCompile Include="state.c" />
     <ClCompile Include="terminal.c" />
     <ClCompile Include="process.c" />
     <ClCompile Include="RAM.c" />
@@ -171,6 +172,7 @@
     <ClInclude Include="include\keyboard.h" />
     <ClInclude Include="include\process.h" />
     <ClInclude Include="include\RAM.h" />
+    <ClInclude Include="include\state.h" />
     <ClInclude Include="include\systemInfo.h" />
     <ClInclude Include="include\terminal.h" />
     <ClInclude Include="include\version.h" />

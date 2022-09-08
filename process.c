@@ -7,8 +7,9 @@
 #include <stdio.h>
 #include <Psapi.h>
 #include <cursor.h>
+#include <state.h>
 void printProcess(DWORD processID, uint16_t line) {
-	if (line <= 1) {
+	if (line <= state.selectedLine) {
 		printf("\x1b[30m\x1b[46m");
 	}
     TCHAR processName[MAX_PATH] = TEXT("<unknown>");
@@ -53,7 +54,7 @@ void printProcess(DWORD processID, uint16_t line) {
 	printf("%ls\r\n", processName);
 	
 
-	if (line != 0) {
+	if (line != state.selectedLine) {
 		printf("\x1b[0m");
 	}
     // Release the handle to the process.

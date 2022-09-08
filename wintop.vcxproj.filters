@@ -39,6 +39,9 @@
     <ClCompile Include="keyboard.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="state.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\globals.h">
@@ -69,6 +72,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\keyboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\state.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
