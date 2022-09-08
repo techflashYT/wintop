@@ -29,15 +29,18 @@ int main() {
 		putchar(' ');
 	}
 	printf("%s]%s\r\n", BRIGHT_WHITE_FG, RESET);
-
 	moveCursor(1, 4);
 	char* buffer = malloc(sizeof(char) * 250);
 
 	printf (
 		"  \x1b[30;42m Main %s \x1b[30;44m I/O %s\r\n"
-		"%s    PID^\x1b[30;42mUSER      PRI  NI  VIRT   RES   SHR S  CPU%% MEM%%   TIME+  Command"
+		"%s    PID^\x1b[30;42mUSER      PRI  NI  VIRT   RES   SHR S  CPU%% MEM%%   TIME+  Command",
 		RESET, RESET, CYAN_BG_BLACK_FG
 	);
+	printf("\x1b[30;42m");
+	for (size_t i = strlen("    PID^USER      PRI  NI  VIRT   RES   SHR S  CPU% MEM%   TIME+  Command"); i < systemInfo.terminal.width; i++) {
+		putchar(' ');
+	}
 	moveCursor(1, systemInfo.terminal.height - 1);
 	char* bottomBarBuffer = malloc(sizeof(char) * 310);
 	memset(bottomBarBuffer, '\0', sizeof(char) * 310);
