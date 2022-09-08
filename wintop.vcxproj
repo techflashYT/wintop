@@ -168,7 +168,6 @@
     <ClInclude Include="include\colors.h" />
     <ClInclude Include="include\CPU.h" />
     <ClInclude Include="include\cursor.h" />
-    <ClInclude Include="include\globals.h" />
     <ClInclude Include="include\keyboard.h" />
     <ClInclude Include="include\process.h" />
     <ClInclude Include="include\RAM.h" />

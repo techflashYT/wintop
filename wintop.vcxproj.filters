@@ -44,9 +44,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\globals.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\systemInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
