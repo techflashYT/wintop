@@ -54,7 +54,7 @@ void printProcess(DWORD processID, uint16_t line) {
 	printf("%ls\r\n", processName);
 	
 
-	if (line != state.selectedLine) {
+	if (line <= state.selectedLine) {
 		printf("\x1b[0m");
 	}
     // Release the handle to the process.
@@ -80,4 +80,5 @@ void printProcesses() {
 			printProcess(processes[i], i);
 		}
 	}
+	printf("%d", state.selectedLine);
 }

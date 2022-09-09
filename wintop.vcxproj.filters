@@ -42,6 +42,9 @@
     <ClCompile Include="state.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="2ndthread.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\systemInfo.h">

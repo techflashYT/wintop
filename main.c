@@ -12,6 +12,14 @@
 #include <terminal.h>
 #include <keyboard.h>
 #include <state.h>
+time_t start;
+DWORD WINAPI secondThreadFunc(LPVOID param);
+typedef struct MyData {
+	int val1;
+	int val2;
+} MYDATA, *PMYDATA;
+PMYDATA pDataArray[1];
+DWORD threadID;
 int main() {
 	initSysInfo();
 	getTerminalWidthAndHeight();
@@ -39,8 +47,7 @@ int main() {
 		putchar(' ');
 	}
 	printf("%s", RESET);
-	time_t start;
-	time_t end;
+	CreateThread(NULL, 0, secondThreadFunc, NULL, 0, &threadID);
 	// TODO: Add bar using "|" character
 	while (true) {
 		start = clock();
@@ -48,41 +55,6 @@ int main() {
 		if (state.exiting) {
 			break;
 		}
-		updateSysInfo();
-		moveCursor(1, 4);
-
-		printf (
-			"  \x1b[30;42m Main %s \x1b[30;44m I/O %s\r\n"
-			"%s    PID^\x1b[30;42mUSER      PRI  NI  VIRT   RES   SHR S  CPU%% MEM%%   TIME+  Command",
-			RESET, RESET, CYAN_BG_BLACK_FG
-		);
-		printf("\x1b[30;42m");
-		for (size_t i = strlen("    PID^USER      PRI  NI  VIRT   RES   SHR S  CPU% MEM%   TIME+  Command"); i < systemInfo.terminal.width; i++) {
-			putchar(' ');
-		}
-		printf("%s", RESET);
-		// TODO: Using https://docs.microsoft.com/en-us/windows/win32/procthread/creating-threads, put the CPU, RAM, process printing, and sleep into a new thread.  That way the keyboard and window code can run at a much faster speed.
-		// TODO: Detect window size change and perform a full redraw to prevent goofiness
-		/// STUFF FOR CPU ///
-		uint8_t percentLen = 1;
-		if (systemInfo.CPU.utilization > 9.99f) {
-			percentLen = 2;
-		}
-		if (systemInfo.CPU.utilization > 99.99f) {
-			percentLen = 3;
-		}
-
-		moveCursor(51 - (2 + percentLen), 1);
-		printf("%s  %.1f%%%s", BRIGHT_BLACK_FG, systemInfo.CPU.utilization, RESET);
-		
-
-		RAMDrawUsageBar();
-		
-		moveCursor(0, 6);
-		printProcesses();
-		
-		end = clock();
-		Sleep(750 - (DWORD)((DWORD)end - (DWORD)start));
 	}
 	// TODO: Fix this, this really should be freed.
 	// free(systemInfo.CPU.name);
