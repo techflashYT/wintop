@@ -13,14 +13,18 @@
 #include <keyboard.h>
 #include <state.h>
 time_t start;
-DWORD WINAPI secondThreadFunc(LPVOID param);
+extern DWORD WINAPI secondThreadFunc(LPVOID param);
+extern DWORD WINAPI thirdThreadFunc(LPVOID param);
 typedef struct MyData {
 	int val1;
 	int val2;
 } MYDATA, *PMYDATA;
-PMYDATA pDataArray[1];
-DWORD threadID;
+PMYDATA pDataArray[2];
+DWORD threadIDs[2];
 int main() {
+	state.threads.thread1readyfor3rdthread = false;
+	state.threads.thread2readyfor3rdthread = false;
+	state.selectedLine = 1;
 	initSysInfo();
 	getTerminalWidthAndHeight();
 	CPUUsageInit();
@@ -37,7 +41,7 @@ int main() {
 		putchar(' ');
 	}
 	printf("%s]%s\r\n", BRIGHT_WHITE_FG, RESET);
-	moveCursor(1, systemInfo.terminal.height - 1);
+	moveCursor(1, systemInfo.terminal.height);
 	char* bottomBarBuffer = malloc(sizeof(char) * 310);
 	memset(bottomBarBuffer, '\0', sizeof(char) * 310);
 	snprintf(bottomBarBuffer, sizeof(char) * 310, "%s%sF1%sHelp  %s%sF2%sSetup %s%sF3%sSearch%s%sF4%sFilter%s%sF5%sTree  %s%sF6%sSortBy%s%sF7%sNice -%s%sF8%sNice +%s%sF9%sKill  %s%sF10%sQuit%s",
@@ -47,14 +51,18 @@ int main() {
 		putchar(' ');
 	}
 	printf("%s", RESET);
-	CreateThread(NULL, 0, secondThreadFunc, NULL, 0, &threadID);
+
+	CreateThread(NULL, 0, secondThreadFunc, NULL, 0, &threadIDs[0]);
+	CreateThread(NULL, 0, thirdThreadFunc, NULL, 0, &threadIDs[1]);
 	// TODO: Add bar using "|" character
 	while (true) {
 		start = clock();
+		state.threads.thread1readyfor3rdthread = false;
 		updateState();
 		if (state.exiting) {
 			break;
 		}
+		state.threads.thread1readyfor3rdthread = true;
 	}
 	// TODO: Fix this, this really should be freed.
 	// free(systemInfo.CPU.name);

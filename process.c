@@ -8,8 +8,9 @@
 #include <Psapi.h>
 #include <cursor.h>
 #include <state.h>
+#include <systemInfo.h>
 void printProcess(DWORD processID, uint16_t line) {
-	if (line <= state.selectedLine) {
+	if (line == state.selectedLine) {
 		printf("\x1b[30m\x1b[46m");
 	}
     TCHAR processName[MAX_PATH] = TEXT("<unknown>");
@@ -51,19 +52,23 @@ void printProcess(DWORD processID, uint16_t line) {
 		putchar(' ');
 	}
 	printf("%d                                                           ", processID);
-	printf("%ls\r\n", processName);
-	
+	printf("%ls", processName);
+	size_t diff = systemInfo.terminal.width - (systemInfo.terminal.width - wcslen(processName));
 
-	if (line <= state.selectedLine) {
+	for (size_t i = 0; i < diff - 1; i++) {
+		putchar(' ');
+	}
+	printf("\r\n");
+	if (line == state.selectedLine) {
 		printf("\x1b[0m");
 	}
     // Release the handle to the process.
 	
     CloseHandle(processHandle);
 }
+DWORD processes[1024], needed, numOfProcesses;
 void printProcesses() {
-	DWORD processes[1024], needed, numOfProcesses;
-
+	//moveCursor(1, 5);
 	if (!EnumProcesses(processes, sizeof(processes), &needed)) {
 		fprintf(stderr,
 			"%s[ERROR]%s Unable to enumerate processes!%s\r\n"
@@ -80,5 +85,4 @@ void printProcesses() {
 			printProcess(processes[i], i);
 		}
 	}
-	printf("%d", state.selectedLine);
 }

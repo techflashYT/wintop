@@ -12,7 +12,7 @@ void checkKeys(int key) {
 	}
 	// up arrow
 	else if (key == 72) {
-		if (state.selectedLine != 0) {
+		if (state.selectedLine != 1) {
 			state.selectedLine--;
 		}
 	}
@@ -35,9 +35,10 @@ void updateState() {
 	checkKeys(key);
 	//moveCursor(0, 23);
 	//printf("key: %d\r\n\r\n", key);
-	if (key == 0 || key == 0xE0) {
-		key = _getch();
-		checkKeys(key);
-	}
+	// TODO: Code hangs here at getch, fix.
+	//if (key == 0 || key == 0xE0) {
+	//	key = _getch();
+	//	checkKeys(key);
+	//}
 
 }

@@ -155,6 +155,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="2ndthread.c" />
+    <ClCompile Include="3rdthread.c" />
     <ClCompile Include="CPU.c" />
     <ClCompile Include="cursor.c" />
     <ClCompile Include="keyboard.c" />

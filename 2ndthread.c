@@ -5,15 +5,15 @@
 #include <string.h>
 #include <Windows.h>
 #include <stdbool.h>
-#include <process.h>
 #include <RAM.h>
-
+#include <state.h>
 
 extern time_t start;
 time_t end;
 DWORD WINAPI secondThreadFunc(LPVOID param) {
 	(void)param;
 	while (true) {
+		state.threads.thread2readyfor3rdthread = false;
 		moveCursor(1, 4);
 
 		printf(
@@ -44,10 +44,8 @@ DWORD WINAPI secondThreadFunc(LPVOID param) {
 
 
 		RAMDrawUsageBar();
-
-		moveCursor(0, 6);
-		printProcesses();
-
+		state.threads.thread2readyfor3rdthread = true;
 		Sleep(750 - (DWORD)((DWORD)end - (DWORD)start));
 	}
+	return 0;
 }
