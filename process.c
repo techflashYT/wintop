@@ -72,15 +72,13 @@ DWORD processes[1024], needed, numOfProcesses;
 uint8_t i = 9;
 void printProcesses() {
 	i++;
-	bool threadState[4] = { false, false, false, false };
-	threadState[0] = state.threads.thread1readyfor2ndthread;
-	threadState[1] = state.threads.thread1readyfor3rdthread;
-	threadState[2] = state.threads.thread2readyfor3rdthread;
-	threadState[3] = state.threads.thread3readyfor2ndthread;
-	state.threads.thread1readyfor2ndthread = false;
-	state.threads.thread1readyfor3rdthread = false;
-	state.threads.thread2readyfor3rdthread = false;
-	state.threads.thread3readyfor2ndthread = false;
+	while (true) {
+		if (state.threads.thread1readyfor3rdthread && state.threads.thread2readyfor3rdthread) {
+			state.threads.thread3readyfor2ndthread = false;
+			break;
+		}
+	}
+
 	//moveCursor(1, 6);
 	if (i == 10) {
 		i = 0;
@@ -96,14 +94,25 @@ void printProcesses() {
 		}
 		numOfProcesses = needed / sizeof(DWORD);
 	}
+	while (true) {
+		if (state.threads.thread1readyfor3rdthread && state.threads.thread2readyfor3rdthread) {
+			state.threads.thread3readyfor2ndthread = false;
+			break;
+		}
+	}
+
 	moveCursor(1, 6);
 	for (uint16_t i2 = 0; i2 < 10; i2++) {
 		if (processes[i2] != 0) {
+			while (true) {
+				if (state.threads.thread1readyfor3rdthread && state.threads.thread2readyfor3rdthread) {
+					state.threads.thread3readyfor2ndthread = false;
+					moveCursor(1, 6);
+					break;
+				}
+			}
+
 			printProcess(processes[i2], i2);
 		}
 	}
-	state.threads.thread1readyfor2ndthread = threadState[0];
-	state.threads.thread1readyfor3rdthread = threadState[1];
-	state.threads.thread2readyfor3rdthread = threadState[2];
-	state.threads.thread3readyfor2ndthread = threadState[3];
 }

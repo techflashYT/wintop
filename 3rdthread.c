@@ -14,7 +14,15 @@ DWORD WINAPI thirdThreadFunc(LPVOID param) {
 				break;
 			}
 		}
+
 		moveCursor(0, 6);
+		while (true) {
+			if (state.threads.thread1readyfor3rdthread && state.threads.thread2readyfor3rdthread) {
+				state.threads.thread3readyfor2ndthread = false;
+				break;
+			}
+		}
+
 		printProcesses();
 		Sleep(10);
 	}
