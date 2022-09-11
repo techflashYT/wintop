@@ -7,26 +7,25 @@
 #include <stdbool.h>
 #include <RAM.h>
 #include <state.h>
+#include <time.h>
 
-extern time_t start;
+time_t start;
 time_t end;
+extern void drawMainTopBar();
 DWORD WINAPI secondThreadFunc(LPVOID param) {
 	(void)param;
 	while (true) {
-		state.threads.thread2readyfor3rdthread = false;
-		moveCursor(1, 4);
-
-		printf(
-			"  \x1b[30;42m Main %s \x1b[30;44m I/O %s\r\n"
-			"%s    PID^\x1b[30;42mUSER      PRI  NI  VIRT   RES   SHR S  CPU%% MEM%%   TIME+  Command",
-			RESET, RESET, CYAN_BG_BLACK_FG
-		);
-		printf("\x1b[30;42m");
-		for (size_t i = strlen("    PID^USER      PRI  NI  VIRT   RES   SHR S  CPU% MEM%   TIME+  Command"); i < systemInfo.terminal.width; i++) {
-			putchar(' ');
+		state.threads.thread2readyfor3rdthread = true;
+		while (true) {
+			if (state.threads.thread1readyfor2ndthread && state.threads.thread3readyfor2ndthread) {
+				break;
+			}
 		}
-		printf("%s", RESET);
+		start = clock();
+		state.threads.thread2readyfor3rdthread = false;
+		drawMainTopBar();
 		
+		state.threads.thread2readyfor3rdthread = true;
 		updateSysInfo();
 
 		// TODO: Detect window size change and perform a full redraw to prevent goofiness
@@ -39,13 +38,16 @@ DWORD WINAPI secondThreadFunc(LPVOID param) {
 			percentLen = 3;
 		}
 
+		state.threads.thread2readyfor3rdthread = false;
 		moveCursor(51 - (2 + percentLen), 1);
 		printf("%s  %.1f%%%s", BRIGHT_BLACK_FG, systemInfo.CPU.utilization, RESET);
 
+		end = clock();
 
 		RAMDrawUsageBar();
 		state.threads.thread2readyfor3rdthread = true;
-		Sleep(750 - (DWORD)((DWORD)end - (DWORD)start));
+		DWORD len = 1500 - (DWORD)((DWORD)end - (DWORD)start);
+		Sleep(len);
 	}
 	return 0;
 }

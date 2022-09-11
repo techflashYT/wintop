@@ -11,7 +11,6 @@ systemInfo_t systemInfo;
 void updateSysInfo() {
 	updateCPUUsage();
 	updateRAMUsage();
-	getTerminalWidthAndHeight();
 }
 void initSysInfo() {
 	SYSTEM_INFO __sysinfo;
